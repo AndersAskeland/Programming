@@ -12,8 +12,7 @@ main()
         char kid2[] ="Maddie"; // Creates a variable "kid2", and also stores the string maddie in it
         // This array can not contain more than 6 characters (7 with null zero)
         char kid3[7] = "Andrew";
-        char hero1[] = "Batman"; // Doing it like this means that I must add my string to it while i define it. I cant go back
-        // if i not use a special function "strcpy"
+        char hero1 = "Batman"; // This is not allowed
         char hero2 [34] = "Spiderman"; // Just some extra space in case
         char hero3 [25]; // Not yet defined
 
