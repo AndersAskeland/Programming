@@ -1,6 +1,6 @@
 // This is a program that uses the header_example h file
 
-#include <stdio.h>
+#include <stdio.h> // Use this for built in functions
 #include "header.h" // Using "" it will search the computer for the file
 #include <string.h>
 
