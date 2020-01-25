@@ -1,16 +1,18 @@
 #include <stdio.h>
-#include <cs50.h>
 
-int main(void)
+main()
 {
 	int i;
 	int j;
 	int rows;
+	
 	do
 	{
 		// Asks for a promt - Size
-		rows = get_int("Height: ");
+		printf("Height: ");
+		scanf(" %d", &rows);
 	}
+
 
 	// Will run this prompt while n is bellow 1 - No characters etc
 	while (rows < 1);
