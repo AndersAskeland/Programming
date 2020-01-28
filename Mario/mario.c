@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 main()
 { // define integers and ask for promt
