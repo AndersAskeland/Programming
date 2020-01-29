@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <cs50.h>
 
 int main(void)
 {
@@ -9,20 +10,19 @@ int main(void)
     int cc_number_lenght = 0;
     int temp_cc;
     int checksum;
-    int even_cc;
-    int odd_cc;
+    long long even_cc = 0;
+    int odd_cc = 0;
     int aboveten;
     int amex = 0;
     int visa = 0;
     int mastercard = 0;
 
-// Gets user input 
-    do 
-    {  
-	    printf("This is a credit card checker!\nEnter your credit card number: ");
-	    scanf(" %lld", &cc_number);  // Asks for a promt - Size
+// Gets user input   
+    do // This says that the scanf cannot recieve anything below 0
+    {  // Asks for a promt - Size
+    cc_number = get_long_long("Enter CC number: ");
     }
-    while (cc_number < 0 || cc_number > 9999999999999999); // Only accept numbers within this range
+    while (cc_number < 0 || cc_number > 9999999999999999);
 
 // Prepares other variables 
     cc_number_start = cc_number;
@@ -40,13 +40,12 @@ int main(void)
         {
             aboveten = (temp_cc * 2); // Gives me answer of tempt cc * 2 (always over 9)
             temp_cc = aboveten % 10;
-            even_cc += temp_cc;
+            even_cc = even_cc + temp_cc;
             aboveten /= 10;
             temp_cc = aboveten % 10;
-            even_cc += aboveten;
+            even_cc = even_cc + aboveten;
             cc_number /= 10;
             cc_number_lenght++; // Count
-  
         }
         else if (cc_number != 0)
         {
@@ -60,7 +59,6 @@ int main(void)
     while (cc_number_start > 99)
     {
         temp_cc = (cc_number_start % 10);
-        printf("temp_cc = %d, cc_number = %lld\n", temp_cc, cc_number_start);
         cc_number_start /= 10;   
     }
 
@@ -68,7 +66,6 @@ int main(void)
     while (cc_number_first > 9)
     {
         temp_cc = (cc_number_first % 10);
-        printf("temp_cc = %d, cc_number = %lld\n", temp_cc, cc_number_first);
         cc_number_first /= 10;   
     }
 
@@ -98,7 +95,6 @@ checksum = even_cc + odd_cc;
     {
         visa = 1;
     }
-    printf("amex = %d", amex);
 
 // compare all parameters and prints
     if (checksum == 1 && amex == 1)
@@ -118,5 +114,5 @@ checksum = even_cc + odd_cc;
         printf("INVALID\n");
     }
 
-printf("Even = %d, Odd = %d, lenght = %d and ccnumber = %lld,  first two digits = %lld, first digit = %lld \n", even_cc, odd_cc, cc_number_lenght, cc_number, cc_number_start, cc_number_first);
 }
+
