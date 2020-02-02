@@ -19,7 +19,7 @@ int main (void)
 
     printf("input = %s\n", string);
 
-// Counts total letters
+// Counts total characters
     characters = strlen (string);    
     
     printf("characters %d\n", characters);
@@ -47,7 +47,7 @@ int main (void)
 // Counts all letters
 for (int t = 0; string[t] !='\0'; t++)
 {
-    if ((string[t] >= 'a' && string[t] <= 'z') || (string[t] >= 'A' && string[t] <= 'z'))
+    if ((string[t] >= 'a' && string[t] <= 'z') || (string[t] >= 'A' && string[t] <= 'Z'))
     {
         letters++;
     }
