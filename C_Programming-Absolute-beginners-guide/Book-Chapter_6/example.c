@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
-main()
+int main(void)
     {
 
         char kid1[12]; // defines a character "kid1" and creates a 12 bit array that it stores it to.
@@ -12,7 +12,7 @@ main()
         char kid2[] ="Maddie"; // Creates a variable "kid2", and also stores the string maddie in it
         // This array can not contain more than 6 characters (7 with null zero)
         char kid3[7] = "Andrew";
-        char hero1 = "Batman"; // This is not allowed
+       // char hero1 = "Batman"; // This is not allowed
         char hero2 [34] = "Spiderman"; // Just some extra space in case
         char hero3 [25]; // Not yet defined
 
@@ -27,10 +27,9 @@ main()
 
         strcpy (hero3, "The Incredible hulk"); // Copies shit in in hero, which was undefined. Needs the <string.h> libary
 
-        printf("%s\'s favorite hero is %s.\n", kid1, hero1);
+    //    printf("%s\'s favorite hero is %s.\n", kid1, hero1);
         printf("%s\'s favorite hero is %s.\n", kid2, hero2);
         printf("%s\'s favorite hero is %s.\n", kid3, hero3);
 
         return 0;
            }
-
