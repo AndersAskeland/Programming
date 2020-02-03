@@ -5,7 +5,7 @@
 #include <string.h>
 
 int main(void)
-    {
+{
 
         char kid1[12]; // defines a character "kid1" and creates a 12 bit array that it stores it to.
         // As the character array also holds a null zero "\" this string can hold 11 true characters
@@ -32,4 +32,4 @@ int main(void)
         printf("%s\'s favorite hero is %s.\n", kid3, hero3);
 
         return 0;
-           }
+}
