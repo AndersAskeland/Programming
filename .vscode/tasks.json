@@ -2,16 +2,16 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "gcc.exe build active file",
-            "command": "C:\\Compilers\\MinGW\\mingw64\\bin\\gcc.exe",
+            "label": "gcc-7 build active file",
+            "command": "/usr/bin/gcc-7",
             "args": [
                 "-g",
                 "${file}",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+                "${fileDirname}/${fileBasenameNoExtension}"
             ],
             "options": {
-                "cwd": "C:\\Compilers\\MinGW\\mingw64\\bin"
+                "cwd": "/usr/bin"
             }
         }
     ],

@@ -1,4 +1,5 @@
-#include "cs50.h"
+#include <cs50.h>
+
 #include <stdio.h>
 #include <string.h>
 
@@ -63,17 +64,23 @@ int main(int argc, string argv[])
     print_winner();
 }
 
+
+
+// Functions
 // Update vote totals given a new vote
 bool vote(string name)
 {
-    // TODO
+    
+    // Look for candidate called name - Itterate - Does this candidate name match "name" - Linear search
+    // If canndidate found, update vote total
+    // Return true - ELSE....
     return false;
 }
 
 // Print the winner (or winners) of the election
 void print_winner(void)
 {
-    // TODO
+    // Print names that has the most votes. - If tie - Two lines. - Linear search
     return;
 }
 
