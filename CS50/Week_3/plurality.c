@@ -1,14 +1,14 @@
-#include "cs50.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
 // Max number of candidates
 #define MAX 9
 
 // Candidates have name and vote count
-typedef struct
+typedef struct candidate
 {
-    string name;
+    char name[24];
     int votes;
 }
 candidate;
@@ -18,21 +18,25 @@ candidate candidates[MAX];
 
 // Number of candidates
 int candidate_count;
+int voter_count;
+
 
 // Function prototypes
-bool vote(string name);
+bool vote(char name);
 void print_winner(void);
+char name[24];
 
-int main(int argc, string argv[])
+
+int main(int argc, char *argv[])
 {
-    // Check for invalid usage
+// Check for invalid usage
     if (argc < 2)
     {
         printf("Usage: plurality [candidate ...]\n");
         return 1;
     }
 
-    // Populate array of candidates
+// Populate array of candidates
     candidate_count = argc - 1;
     if (candidate_count > MAX)
     {
@@ -41,19 +45,23 @@ int main(int argc, string argv[])
     }
     for (int i = 0; i < candidate_count; i++)
     {
-        candidates[i].name = argv[i + 1];
+        strcpy(candidates[i].name, argv[i + 1]);
         candidates[i].votes = 0;
     }
 
-    int voter_count = get_int("Number of voters: ");
+// Asks for input - Number of voters
+    printf("Number of voters: ");
+	scanf(" %d", &voter_count);  
 
-    // Loop over all voters
+// Loop over all voters
     for (int i = 0; i < voter_count; i++)
     {
-        string name = get_string("Vote: ");
+        puts("Vote: ");
+        fgets(name, 27,stdin);
 
+        vote(name);  
         // Check for invalid vote
-        if (!vote(name))
+        if (!vote(candidates[i].name))
         {
             printf("Invalid vote.\n");
         }
@@ -67,8 +75,18 @@ int main(int argc, string argv[])
 
 // Functions
 // Update vote totals given a new vote
-bool vote(string name)
+bool vote(char name)
 {
+    int i = 0;
+    while (name != candidates[i].name)
+    {
+        if (name == candidates[i].name)
+        {
+            candidates[i].votes += 1;
+            return true;
+        }
+          
+    }
     
     // Look for candidate called name - Itterate - Does this candidate name match "name" - Linear search
     // If canndidate found, update vote total
