@@ -118,15 +118,15 @@ void record_preferences(int ranks[])
     int j = 0;
     for (int i = 0; i < strlen(candidate_count); i++)
     {
-        for (j < strlen(candidate_count); j++)
+        for (j; j < strlen(candidate_count); j++)
         {
             if (ranks[i] > ranks[j+1])
             {
-                record_preferences[i+1][j+2]++; 
+                preferences[i+1][j+2]++; 
             }
             else
             {
-                record_preferences[j+2][i+1]++;
+                preferences[j+2][i+1]++;
             }       
         }
     j = 1 + i; // Resets the counter to skip looking at what we allready tested.
@@ -137,7 +137,21 @@ void record_preferences(int ranks[])
 // Record pairs of candidates where one is preferred over the other
 void add_pairs(void)
 {
-    // TODO
+    // I just need to add enough pairs - Dont really know how it works. I probably need two for loops.
+    for (int i = 0; i < strlen(candidate_count); i++)
+    {
+        for (int j = 0; j < strlen(candidate_count); j++)
+        {
+            if (preferences[i][j] > preferences[i][j+1])
+            {
+                pairs[i].winner = i;
+                pairs[i].loser = j+1;
+                pair_count++;
+            }
+            
+        } 
+    }
+    
     return;
 }
 
