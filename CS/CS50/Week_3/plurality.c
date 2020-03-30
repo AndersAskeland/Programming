@@ -1,14 +1,14 @@
+#include <cs50.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
 
 // Max number of candidates
 #define MAX 9
 
 // Candidates have name and vote count
-typedef struct candidate
+typedef struct
 {
-    char name[24];
+    string name;
     int votes;
 }
 candidate;
@@ -18,25 +18,22 @@ candidate candidates[MAX];
 
 // Number of candidates
 int candidate_count;
-int voter_count;
-
 
 // Function prototypes
-bool vote(char name);
+int voter_count = 0;
+bool vote(string name);
 void print_winner(void);
-char name[24];
 
-
-int main(int argc, char *argv[])
+int main(int argc, string argv[])
 {
-// Check for invalid usage
+    // Check for invalid usage
     if (argc < 2)
     {
-        printf("Usage: plurality [candidate ...]\n");
+        printf("Usages: plurality [candidate ...]\n");
         return 1;
     }
 
-// Populate array of candidates
+    // Populate array of candidates
     candidate_count = argc - 1;
     if (candidate_count > MAX)
     {
@@ -45,59 +42,81 @@ int main(int argc, char *argv[])
     }
     for (int i = 0; i < candidate_count; i++)
     {
-        strcpy(candidates[i].name, argv[i + 1]);
+        candidates[i].name = argv[i + 1];
         candidates[i].votes = 0;
     }
 
-// Asks for input - Number of voters
-    printf("Number of voters: ");
-	scanf(" %d", &voter_count);  
+    voter_count = get_int("Number of voters: ");
 
-// Loop over all voters
+    // Loop over all voters
     for (int i = 0; i < voter_count; i++)
     {
-        puts("Vote: ");
-        fgets(name, 27,stdin);
+        string name = get_string("Vote: ");
 
-        vote(name);  
         // Check for invalid vote
-        if (!vote(candidates[i].name))
+        if (!vote(name)) // Also calls function
         {
             printf("Invalid vote.\n");
         }
     }
 
-    // Display winner of election
+    // Display winner of elections
     print_winner();
 }
 
-
-
-// Functions
 // Update vote totals given a new vote
-bool vote(char name)
+bool vote(string name)
 {
-    int i = 0;
-    while (name != candidates[i].name)
+    int number = candidate_count;
+    for (int i = 0; i < number; i++) // Ensures that there never is a null in candidates[i].name
     {
-        if (name == candidates[i].name)
+        if (strcmp(name, candidates[i].name) == 0)
         {
-            candidates[i].votes += 1;
+            candidates[i].votes++;
+            printf("Match\n");
             return true;
         }
-          
+        continue;
     }
-    
-    // Look for candidate called name - Itterate - Does this candidate name match "name" - Linear search
-    // If canndidate found, update vote total
-    // Return true - ELSE....
+    printf("Not found\n");
+
     return false;
+
 }
 
-// Print the winner (or winners) of the election
+// Print the winner (or winners) of the election - This should be a bubble sort.
 void print_winner(void)
 {
-    // Print names that has the most votes. - If tie - Two lines. - Linear search
+    int swap_counter = -1;
+    candidate temp;
+    int number = candidate_count;
+    while(swap_counter != 0)
+    {
+        swap_counter = 0;
+        for(int i = 0; i < number-1; i++)
+        {
+            if(candidates[i].votes > candidates[i+1].votes)
+            {
+                swap_counter++;
+                temp = candidates[i+1];
+                candidates[i+1] = candidates[i];
+                candidates[i] = temp;
+            }
+        }
+    }
+
+    if((candidates[number-1].votes == candidates[number-2].votes) && (candidates[number-1].votes == candidates[number-3].votes))
+    {
+        printf("%s\n%s\n%s\n", candidates[number-1].name, candidates[number-2].name, candidates[number-3].name);
+    }
+    else if(candidates[number-1].votes == candidates[number-2].votes)
+    {
+        printf("%s\n%s\n", candidates[number-1].name, candidates[number-2].name);
+    }
+    else
+    {
+        printf("%s\n", candidates[number-1].name);
+    }
     return;
 }
 
