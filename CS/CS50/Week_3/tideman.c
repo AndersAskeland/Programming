@@ -190,14 +190,81 @@ void sort_pairs(void)
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
-    // TODO
+
+for (int i = 0; i < pair_count-1; i++)
+{
+    int winner = pairs[i].winner; // gets ID of winner of pair
+    int loser = pairs[i].loser; // gets ID of loser of pair
+        
+    locked[winner][loser] = cycle(winner, loser, i);
+    
+    // if not - lock it.
+}
+ // last one - Should awoid loop - Think recurssion 
+
+
+
+    // set locked to pairs[winner] and pairs [loser]
+    // need to check if cycle is created each itteration - check if i'th itteration makes contact to first locked thingy
     return;
 }
+
+
+// Function for bool
+bool cycle(winner, loser, i)
+{
+    int j = 0;
+    bool check = true;
+    
+    
+    // If j is below i / no more things to check - This is an out where it should significy that everything is True, and we have a loop.
+    if (check == false)
+    {
+        return true
+    }
+    
+    if (j < 1)
+    {
+        return false
+    }
+
+    if (locked[winner][loser] == true)
+    {
+        return true
+    }
+    
+    for (int j = 0; j < pair_count; j++)
+    {
+        bool check = 
+    }
+}
+
 
 // Print the winner of the election
 void print_winner(void)
 {
-    // TODO
+    int highestTrue = 0;
+    double scores[MAX] = {0};
+
+    for (int i = 0; i < pair_count; i++) // the locked array i and j should correspond to candidate
+    {
+        for (int j = 0; j < pair_count; j++)
+        {
+        if (locked[i][j] == true)
+            {
+                scores[i]++;
+                if (scores[i] > highestTrue)  // sees if it is above
+                {
+                    highestTrue = locked[i][i];
+                }
+                
+            }
+        }
+    }
+    printf("The winner is %s\n", candidates[highestTrue]);
+    // Two loops that run until it finds one that has 
+
+    // might need to check whom is best if we have candidate number above 3
     return;
 }
 
