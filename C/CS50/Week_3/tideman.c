@@ -33,6 +33,7 @@ void add_pairs(void);
 void sort_pairs(void);
 void lock_pairs(void);
 void print_winner(void);
+bool cycle();
 
 int main(int argc, string argv[])
 {
@@ -85,7 +86,6 @@ printf("Preference table is %d\n", preferences[1][1]);
             }
 
         }
-        printf("The ID for the top candiate for voter number %d is %d (name = %d)\n", i, ranks[0], ranks[0]);
 
         record_preferences(ranks);
 
@@ -107,11 +107,10 @@ bool vote(int rank, string name, int ranks[])
         if (strcmp(name, candidates[i]) == 0) // Only saves stuff if it matches-
         {
             ranks[rank] = i; // Saves candidate ID as ranks (rank 0 is best candidate)
-            printf("Match for rank %d for candidate %s\n", rank+1, candidates[i]);
             return true;
         }
         continue;
-    }  
+    }
     return false;
 }
 
@@ -124,7 +123,6 @@ void record_preferences(int ranks[])
         for (int j = 0+k; j < candidate_count-1; j++)
         {
             preferences[(ranks[i])][(ranks[j+1])]++;
-            printf("\nWe updated preferences for rank %d (i).\n Rank %d (i) had an ID of %d.\n Was compared to rank %d (j) with ID of %d\n The preference for this combination is now %d\n\n", i, i, ranks[i], j+1, ranks[j+1], preferences[(ranks[i])][(ranks[j+1])]);
         }
     k++;
     }
@@ -148,15 +146,14 @@ void add_pairs(void)
             }
             else if (preferences[i][j+1] < preferences[j+1][i])
             {
-                pairs[pair_count].winner = j+1;        
+                pairs[pair_count].winner = j+1;
                 pairs[pair_count].loser = i;
-                pair_count++; 
+                pair_count++;
             }
-        printf("Pair %d have %d as winner and %d as loser\n", pair_count - 1, pairs[pair_count-1].winner, pairs[pair_count-1].loser);
-        } 
+        }
         k++;
-    }            
-    
+    }
+
     return;
 }
 
@@ -180,8 +177,7 @@ void sort_pairs(void)
             }
         }
     }
-    
-    printf("Highest strenght of victory is for ID %d compared to ID %d", pairs[0].winner, pairs[0].loser);
+
     return;
 
     // Might be completed - Try on a larger dataset
@@ -190,81 +186,82 @@ void sort_pairs(void)
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
+// loocks two first pair as there can never be a circle.
+    for (int i = 0; i < pair_count; i++)
+    {
+        printf("####### Cycle lock running for winner %s vs loser %s #######\n", candidates[pairs[i].winner], candidates[pairs[i].loser]);
+        int winner = pairs[i].winner; // gets ID of winner of pair
+        int loser = pairs[i].loser; // gets ID of loser of pair
 
-for (int i = 0; i < pair_count-1; i++)
+        locked[winner][loser] = cycle(winner, loser, i);
+
+    }
+        return;
+}
+
+
+// Function for checking if there is a cycle.
+bool cycle(winner, loser, n)
 {
-    int winner = pairs[i].winner; // gets ID of winner of pair
-    int loser = pairs[i].loser; // gets ID of loser of pair
-        
-    locked[winner][loser] = cycle(winner, loser, i);
-    
-    // if not - lock it.
+    // Base cases
+    if (locked[loser][winner] == true) // Checks if there is a loop
+    {
+        return false;
+    }
+
+    else if (n < 1) // Triggers if its trough everything and there was no loop
+    {
+        return true;
+    }
+
+    // Recurssion
+    for (int i = 0; i < pair_count-1; i++)
+    {
+        n--;
+        if (locked[loser][i] == true)
+        {
+            n = n - 1;
+            cycle(winner, i, n);
+        }
+            else if (n == 0) // Triggers if its trough everything and there was no loop
+        {
+            return true;
+        }
+
+    }
+    return false;
 }
- // last one - Should awoid loop - Think recurssion 
-
-
-
-    // set locked to pairs[winner] and pairs [loser]
-    // need to check if cycle is created each itteration - check if i'th itteration makes contact to first locked thingy
-    return;
-}
-
-
-// Function for bool
-bool cycle(winner, loser, i)
-{
-    int j = 0;
-    bool check = true;
-    
-    
-    // If j is below i / no more things to check - This is an out where it should significy that everything is True, and we have a loop.
-    if (check == false)
-    {
-        return true
-    }
-    
-    if (j < 1)
-    {
-        return false
-    }
-
-    if (locked[winner][loser] == true)
-    {
-        return true
-    }
-    
-    for (int j = 0; j < pair_count; j++)
-    {
-        bool check = 
-    }
-}
-
 
 // Print the winner of the election
 void print_winner(void)
 {
-    int highestTrue = 0;
-    double scores[MAX] = {0};
+    int count = candidate_count;
+    int loser[MAX] = {0};
+    int winner[MAX] = {0};
 
-    for (int i = 0; i < pair_count; i++) // the locked array i and j should correspond to candidate
+    for (int i = 0; i < candidate_count; i++)
     {
-        for (int j = 0; j < pair_count; j++)
+        for (int j = 0; j < candidate_count; j++)
         {
-        if (locked[i][j] == true)
+            if (locked[i][j])
             {
-                scores[i]++;
-                if (scores[i] > highestTrue)  // sees if it is above
-                {
-                    highestTrue = locked[i][i];
-                }
-                
+                loser[j]++;
+                winner[i]++;
             }
-        }
-    }
-    printf("The winner is %s\n", candidates[highestTrue]);
-    // Two loops that run until it finds one that has 
 
-    // might need to check whom is best if we have candidate number above 3
+        }
+
+    }
+    for (int k = 0; k <= candidate_count; k++)
+    {
+        if (loser[k] == 0 && k <= candidate_count && winner[k] > 0)
+        {
+            printf("%s\n", candidates[k]);
+        }
+
+    }
+
+
     return;
 }
 
