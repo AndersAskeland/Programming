@@ -7,90 +7,66 @@ typedef uint8_t  BYTE;
 
 // Function prototypes
 bool startJPG();
-bool writeJPG();
-
 
 // The size of functiion gives the size of a type of data in bytes.
 int main(int argc, char *argv[])
 {
     // define variables
     BYTE buffer[512] = {0};
+    int filenr = 0;
+    char filename;
+    FILE *img = NULL; // I need to define it here if I want to use it all places in my loop.
 
-    // Checks command line argument
+    // Checks command line argument is provided
     if (argc != 2)
-    {
+    {  
         printf("You must supply one command line argument for this program\n");
         return 1;
     }
 
     // open memory card
     FILE *mmCard = fopen(argv[1], "r");
-    printf("The size of buffer is %lu bytes\n", sizeof(*buffer));
 
     // Check if memory card is opened
     if (!mmCard)
     {
         printf("File is not opened\n");
+        return 2; // Exit with return code 2.
     }
     else
     {
         printf("File is opened\n");
     }
 
-    // Repeat until end of card - maybe
-    while (buffer)
-    {
-        // Reads 512 bytes into buffer/memory
-        fread(&buffer, 512, sizeof(*buffer), mmCard);
-        
-        // If start of new JPEG
+    // Checks EOF and read to buffer. Will continue until it reach EOF
+    while(fread(buffer, 512, sizeof(*buffer), mmCard) == 1)
+    {     
+        // Checks if its start of file
         if (startJPG(buffer[0], buffer[1], buffer[2], mmCard))
         {
-            // If first JPEG
-            if (/* condition */)
+            // Closes old file and itterates filenr if we are past first itteration (i.e. img file is opened)
+            if (img != NULL)
             {
-                /* code */
+                fclose(img);
+                img = NULL;
+                filenr++;
             }
-            // Create a new file
-            else
-            {
-                /* code */
-            }
-        }
-        // If its not start - Continue writing
-        else
-        {
-            /* code */
-        }
-        
-        
-    }
+            
+            // Creates a filename
+            sprintf(&filename, "%03d.jpg", filenr);
+            
+            // Create new file
+            img = fopen(&filename, "w");
 
-    
-    
-    // Loop that goes trough each 512 byte of data // Now it works. Maybe, its better to have this loop inside the writeJPG loop. And just have a while startJPG is false out here to reach fist location.
-    
-    for (int i = 0; i < 100000000; i++) // I need a method to find size of file. Maybe better to have a while loop until file is empty. Or file IS TRUE/open. i.e. while(mmCard){}
-    {
-        fread(&buffer, 512, sizeof(*buffer), mmCard);
-
-        // First startJPG
-        if startJPG(buffer[0], buffer[1], buffer[2], mmCard)
-        {
-            // Open new JPEG file
-            writeFunction.
+            // Write to file
+            fwrite(buffer, 512, sizeof(buffer), img);
         }
-        else
+        // Continue writing if a file is opened.
+        else if (img != NULL)
         {
-            continue; // Skips rest of loop.
+            fwrite(buffer, 512, sizeof(buffer), img);
         }
-        
-                    
     }    
-
-    // File that Im working on right now.
-    FILE *currentJPEG;
-    
 
     fclose(mmCard);
 }
@@ -100,23 +76,12 @@ int main(int argc, char *argv[])
 // Function to check for start - semi complete, I need last condition. Work on later.
 bool startJPG(a, b, c, mmCard)
 {
-    if (a == 0xff && b == 0xd8 && c == 0xff)    
+    if (a == 0xff && b == 0xd8 && c == 0xff) // bitwise comparison for d  
     {
+        return 1;
         printf("Maybe\n");
     }
-    return 1;
+    return 0;
 }
 
 
-// Function to write to thingy.
-bool writeJPG()
-{
-    // if - check if curretly wrting - If yes. close and start new,
-
-    // Start writing.
-
-    // For each loop, check startJPG function. If true. Recurssion/writeJPG. 
-
-    // I need to figure out how to know when the file is done.
-
-}
