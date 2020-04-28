@@ -11,7 +11,7 @@ typedef uint8_t BYTE;
 int main(int argc, char *argv[])
 {
     // define variables
-    BYTE *buffer = malloc(512 * sizeof(BYTE)); // It would probably be a good idea to free this memory at some point, but I dont fully understand malloc.
+    BYTE *buffer = malloc(512 * sizeof(BYTE)); // It would probably be a good idea to free this memory at some point, but I dont fully understand. I actually dont need malloc for this to work
     int filenr = 0;
     char filename[10];
     FILE *img = NULL; // I need to define it here if I want to use it all places in my loop.
