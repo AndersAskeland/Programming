@@ -1,0 +1,38 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% Preamble %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[10pt, twoside, openright]{book} % This declare the type of document (CLASS). 
+% This controls the overall apperance of the document. 
+% Article is the simplest and most common CLASS. Others are book and report.
+
+%% Specifies encoding
+\usepackage[utf8]{inputenc} % Unicode 8 bit (1-6 byte per char)
+
+%% Adds posibility of adding figures and images.
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+
+
+%% Front page
+\title{Anders PhD thesis}
+\author{Anders Askeland}
+\date{2020-05-04}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% Document %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document} % Body. 
+\maketitle
+\begin{abstract} % Abstract inside document - Does not work in book type.
+This is a simple paragraph at the beginning of the 
+document. A brief introduction about the main subject.
+\end{abstract}
+
+\textbf{This is bold text - }
+First document. This is a simple example, with no 
+extra parameters or packages included. This is a secondary test! Wow. It is actually working. 
+\end{document}
