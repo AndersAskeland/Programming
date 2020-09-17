@@ -3,7 +3,7 @@
 
 int main(void)
 {
-    // Defines variables
+// Defines variables
     char string[999];
     int characters;
     int spaces = 0;
@@ -13,14 +13,14 @@ int main(void)
     float l = 0;
     float s = 0;
 
-    // Takes user input
+// Takes user input
     printf("Write some letters:");
     fgets(string, sizeof(string), stdin); // Can recieve input with spaces - However, can only be used on string
 
-    // Counts total characters
+// Counts total characters
     characters = strlen(string);
 
-    // Count total spaces
+// Count total spaces
     for (int i = 0; string[i] != '\0'; i++) // Itterate trough until \0
     {
         if (string[i] == ' ')
@@ -57,17 +57,17 @@ int main(void)
     // Calculation
     score = (0.0588 * (float)l) - (0.296 * (float)s) - 15.8;
 
-    // Gives output
+// Gives output
     if (score > 2 && score < 17)
     {
-        printf("Grade = %0.f\n", score);
+        printf("Grade %0.f\n", score);
     }
     else if (score < 2)
     {
-        printf("Before grade 1");
+        printf("Before grade 1\n");
     }
     else
     {
-        printf("Grade 16+");
+        printf("Grade 16+\n");
     }
 }
