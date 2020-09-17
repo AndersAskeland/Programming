@@ -17,12 +17,8 @@ int main(void)
     printf("Write some letters:");
     fgets(string, sizeof(string), stdin); // Can recieve input with spaces - However, can only be used on string
 
-    printf("input = %s\n", string);
-
     // Counts total characters
     characters = strlen(string);
-
-    printf("characters %d\n", characters);
 
     // Count total spaces
     for (int i = 0; string[i] != '\0'; i++) // Itterate trough until \0
@@ -32,7 +28,6 @@ int main(void)
             spaces++; // Spaces are also a measure for total words (+1 for the first word)
         }
     }
-    printf("Spaces= %d\n", spaces);
 
     // Counts sentences
     for (int j = 0; string[j] != '\0'; j++)
@@ -42,7 +37,6 @@ int main(void)
             sentences++;
         }
     }
-    printf("Sentences= %d\n", sentences);
 
     // Counts all letters
     for (int t = 0; string[t] != '\0'; t++)
@@ -56,15 +50,12 @@ int main(void)
     // Calculates readability
     // Average number of letters per 100 words
     l = (((float)letters / ((float)spaces + 1)) * 100);
-    printf("l = %f", l);
 
     // Average number of sentences per 100 words
     s = (((float)sentences / ((float)spaces + 1)) * 100);
-    printf("s = %f", s);
 
     // Calculation
     score = (0.0588 * (float)l) - (0.296 * (float)s) - 15.8;
-    printf("Score = %f\n", score);
 
     // Gives output
     if (score > 2 && score < 17)
