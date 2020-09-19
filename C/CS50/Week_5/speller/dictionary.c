@@ -16,12 +16,12 @@ node;
 const unsigned int N = 1;
 
 // Hash table
-node *table[N];
+node *table[N];  // Change this to alphabet
 
 // Returns true if word is in dictionary else false
 bool check(const char *word)
 {
-    // TODO
+    // if word in dictionary file. Make all things lower. Return T if found.
     return false;
 }
 
@@ -35,6 +35,16 @@ unsigned int hash(const char *word)
 // Loads dictionary into memory, returning true if successful else false
 bool load(const char *dictionary)
 {
+    dictionary = fopen("/Users/aaske/Programming (GitHub)/C/CS50/Week_5/speller/dictionaries/small.txt")
+    // open dictionary
+
+    // For line in file, add line to dictionary.  Remember that there is a \n at end of each line.
+
+    // return true
+
+// Use strcpy
+
+// If next is null store here.
     // TODO
     // 1 - Open file
     ////// fopen and check if return value is NULL
@@ -54,13 +64,13 @@ bool load(const char *dictionary)
 // Returns number of words in dictionary if loaded else 0 if not yet loaded
 unsigned int size(void)
 {
-    // TODO
+    // Probably a function that can look at this. Potentially for loop that counts until NULL. Look at words file.
     return 0;
 }
 
 // Unloads dictionary from memory, returning true if successful else false
 bool unload(void)
 {
-    // TODO
+    // Loop that frees all stuff.
     return false;
 }
