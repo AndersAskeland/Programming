@@ -12,7 +12,7 @@ int main(void)
     do
     {
         // Asks for a promt - Size
-        printf("This is a Mario Pyramid builder!\nEnter a number betwen 1-23: ");
+        printf("This is a Mario Pyramid builder!\nEnter a number betwen 1-8: ");
         scanf(" %d", &rows);
     }
     while (rows < 1 || rows > 8); // Do the above as long as rows is bellow 1 or above 24
