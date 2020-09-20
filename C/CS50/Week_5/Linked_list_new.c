@@ -5,8 +5,6 @@
 #include <stdbool.h>
 
 
-
-
 // Prototypes
 void generateList(char *n);
 void printList();
@@ -57,11 +55,10 @@ bool load(const char *dictionary)
 
     printf("List i %d words long!\n\n", i);
 
-    check("Test");
-    check("Loser");
+
+    check("A");
     check("cat");
-    check("caterpillar");
-    
+
     
     // Free list
     unload();
