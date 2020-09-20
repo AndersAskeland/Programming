@@ -1,7 +1,10 @@
 // Implements a dictionary's functionality
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 #include <stdbool.h>
-
+#include <strings.h>
 #include "dictionary.h"
 
 // Represents a node in a hash table
@@ -12,65 +15,164 @@ typedef struct node
 }
 node;
 
+// Prototypes
+void generateList(char *n);
+
+
 // Number of buckets in hash table
 const unsigned int N = 1;
 
 // Hash table
-node *table[N];  // Change this to alphabet
+node *list[26];  // Change this to alphabet
+int wordCount = 0;
 
 // Returns true if word is in dictionary else false
 bool check(const char *word)
 {
-    // if word in dictionary file. Make all things lower. Return T if found.
-    return false;
+    // Variables
+    node *snake;
+
+    // Find hash index
+    int index = hash(word);
+
+    // Make word input lower case // I could have just used strcasecmp, strncasecmp - compare two strings ignoring case
+
+
+    // Set snake location
+    snake = list[index];
+
+    while(snake != NULL)
+    {
+        if (strcasecmp(word, snake->word) == 0)
+        {
+            return(true);
+        }
+        snake = snake->next;
+    }
+    return(false);
 }
 
 // Hashes word to a number
 unsigned int hash(const char *word)
 {
-    // TODO
-    return 0;
+    // Takes the const string and turns it into a normal string.
+    char *letters = (char*)word;
+
+    // Converts first letter to lower
+    char letter = tolower(letters[0]);
+
+    // Sets ascii code
+    int ascii = ((int)letter - 96);
+
+    // Return
+    return(ascii);
 }
 
 // Loads dictionary into memory, returning true if successful else false
 bool load(const char *dictionary)
 {
-    dictionary = fopen("/Users/aaske/Programming (GitHub)/C/CS50/Week_5/speller/dictionaries/small.txt")
-    // open dictionary
+   // Variables
+    char tmpWord[50];
 
-    // For line in file, add line to dictionary.  Remember that there is a \n at end of each line.
+    // Load file and check open
+    FILE *file = fopen(dictionary, "r");
+    if (file == NULL)
+    {
+        return(false);
+    }
 
-    // return true
-
-// Use strcpy
-
-// If next is null store here.
-    // TODO
-    // 1 - Open file
-    ////// fopen and check if return value is NULL
-    // 2 - read string from file
-    /////// fscanf(file, "%s", word). Fscanf return EOF once at end of file. Repeat on each word in dictionary.
-    /////// Usually loop to run. file = file pointer, s = read stinr, word = char array to read into
-    // 3 - Create new node for each word
-    ////// use malloc to allocate new memory. Check if malloc return null
-    ///// Copy word into node (strcpy)
-    // 4 - hash word
-    ///// Use hash function. Takes string and return an index you can use.
-    // 5 - Insert node into hash table
-    /// Add new node to new list. set pointer in correct order.
-    return false;
+    // Loop over words // We can also use fscanf // fgets reads to newline. I dont know what is better.
+    while (fscanf(file,"%s",tmpWord)==1)
+    {
+        generateList(tmpWord);
+        wordCount++;
+    }
+    fclose(file);
+    return(true);
 }
 
 // Returns number of words in dictionary if loaded else 0 if not yet loaded
 unsigned int size(void)
 {
-    // Probably a function that can look at this. Potentially for loop that counts until NULL. Look at words file.
-    return 0;
+    return(wordCount);
 }
 
 // Unloads dictionary from memory, returning true if successful else false
 bool unload(void)
 {
-    // Loop that frees all stuff.
-    return false;
+
+    for (int i = 1; i <= 26; i++)
+    {
+        while (list[i] != NULL)
+        {
+            node *snake = list[i]->next;
+            free(list[i]);
+            list[i] = snake;
+        }
+    }
+    return(true);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/////// My own functions
+// Adds it to the end of list.
+// Stupid me could also just have
+// added it to the front by pointing newNode to list->word
+// and then list = newNode. Well, well.
+void generateList (char *n)
+{
+    // Variables
+    node *snake;
+    int index = hash(n); // Gets index of first letter.
+
+    // Check if first location
+    if (list[index] == NULL)
+    {
+        // Variable
+        list[index] = malloc(sizeof(node));
+
+        // copy string in
+        strcpy(list[index]->word, n);
+        list[index]->next = NULL;
+    }
+
+    // End of list
+    else
+    {
+        // Variable
+        node *newNode = malloc(sizeof(node));
+
+        // CHeck if enough RAM
+        if (newNode == NULL)
+        {
+            printf("Not enough RAM\n");
+        }
+
+        // Add data to a node
+        strcpy(newNode->word, n);
+        newNode->next = NULL;
+
+        // Set start of list
+        snake = list[index];
+
+        // Find end of list/last node
+        while (snake != NULL && snake->next != NULL)
+        {
+            snake = snake->next;
+        }
+
+        // Insert at end of list
+        snake->next = newNode;
+    }
 }
