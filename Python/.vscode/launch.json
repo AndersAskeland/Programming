@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["/Users/aaske/Programming' '(GitHub)/CS50/Week_6/pset/DNA/databases/small.csv", "/Users/aaske/Programming' '(GitHub)/CS50/Week_6/pset/DNA/sequences/1.txt"]
+            "args": ["/Users/aaske/'Programming(GitHub)'/CS50/Week_6/pset/DNA/databases/small.csv", "/Users/aaske/'Programming (GitHub)'/CS50/Week_6/pset/DNA/sequences/1.txt"]
         }
     ]
 }

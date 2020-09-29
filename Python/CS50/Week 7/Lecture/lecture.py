@@ -27,6 +27,8 @@ for key, value in sorted(counts.items(), key=lambda item: item[1], reverse=True)
 
 
 """ 
+Sqlite is a lightweight sql server.
+
 How to go from CSV to relational database. CSV files are slow when they are large.
 To open/create up a sqlite database use:
 > sqlite3 favorites.db
@@ -48,7 +50,27 @@ CRUD!
 
 There is just a few dozen functions in C.
 
+Datatypes in SQL
 
+* blob
+ - Binary raw data.
+* Integer
+ - smallint -
+ - integer - 32 bit
+ - bigint - 64 bit
+* Real
+ - real - 32 bit
+ - double precition - 64 bit
+* Numeric
+ - Bool
+ - Dates
+ - time
+ - timestamp
+ - Numeric - super accurate
+* Text
+ - char(n)
+ - varchar(n) - n = Number of chars per cell. Varchar gives upper bound
+ - text 
 
 
 Now you created database
@@ -59,5 +81,27 @@ Or
 
 > SELECT title, COUNT(title) AS n FROM favorites GROUP BY title ORDER BY n DESC;
 
+
+Example:
+
+> SELECT COUNT(title) FROM favotrites WHERE title LIKE %office%;
+
+> UPDATE table SET title = "The Office" WHERE title Like "%office";
+
+> DELETE FROM favorites WHERE title = "Friends";
+
+> 
+
+
+Functions
+* Distinct - removes dups
+* Count
+* Max
+* Min
+* where
+* Like
+* limit
+* group by
+* Join 
 
 """
