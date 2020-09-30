@@ -2,5 +2,5 @@
 SELECT title, rating 
 FROM movies
 LEFT JOIN ratings on movies.id = ratings.movie_id
-WHERE year = 2010
+WHERE year = 2010 AND rating IS NOT NULL
 ORDER BY rating DESC, title;

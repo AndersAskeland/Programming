@@ -5,4 +5,5 @@ FROM stars
 LEFT JOIN movies ON stars.movie_id = movies.id
 LEFT JOIN people on stars.person_id = people.id
 WHERE year = 2004
+GROUP BY people.id
 ORDER BY birth;
