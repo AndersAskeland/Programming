@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    Your random number is: {{ number }}!
+
+
+{% if number > 10 %}
+your number is above 10
+{% else %}
+Your number is below 10
+{% endif %}
+
+<form action="/submit">
+    <input name = "name" type="text">
+    <input type="submit">
+</form>
+
+
+</body>
+</html><!-- Thus is the body -->

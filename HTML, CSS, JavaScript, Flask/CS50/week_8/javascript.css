@@ -1,0 +1,31 @@
+h2 /* This selects whole elements  */
+{
+    text-align: center;
+    color: blueviolet;
+}
+.title /* This selects class */
+{
+    color: rgb(133, 30, 50);
+}
+table
+{
+    border: 1px solid blueviolet;
+    border-collapse: collapse;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+td
+{
+    border: 1px solid black;
+    padding: 10px;
+    text-align: left;
+}
+
+.column
+{
+    background-color: rgb(173, 187, 187);
+    font-size: larger;
+    text-emphasis: bold;
+    text-align: center;
+}
