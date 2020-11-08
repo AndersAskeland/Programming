@@ -1,0 +1,20 @@
+<!-- Stock lookup form -->
+{% extends "layout.html" %}
+
+<!-- Title -->
+{% block title %}
+Get stock quote
+{% endblock title %}
+
+<!-- Body -->
+{% block main %}
+<!-- Form -->
+<form action="/quote" method="post">
+    <h2>Lookup Stock</h2>
+    <div class="form-group">
+        <div class="col-xs-6">
+          <input type="text" autocomplete="off" class="form-control" name="stock" placeholder="Stock Symbols" required="required"></div>
+      </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+{% endblock main %}

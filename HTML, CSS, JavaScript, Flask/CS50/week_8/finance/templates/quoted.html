@@ -1,0 +1,16 @@
+<!-- Stock information -->
+{% extends "layout.html" %}
+
+<!-- Title -->
+{% block title %}
+Stock quote
+{% endblock title %}
+
+<!-- Body -->
+{% block main %}
+<h2>Stock information {{ quote.name }}</h2>
+
+    <p>Name: {{ quote.name }}</p>
+    <p>Price: {{ quote.price }}</p>
+    <p>Symbol: {{ quote.symbol }}</p>
+{% endblock main %}

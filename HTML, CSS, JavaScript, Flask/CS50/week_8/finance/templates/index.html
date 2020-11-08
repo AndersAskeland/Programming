@@ -1,0 +1,55 @@
+<!-- Homepage -->
+{% extends "layout.html" %}
+
+<!-- Title -->
+{% block title %}
+CS50
+{% endblock title %}
+
+<!-- Body -->
+{% block main %}
+<table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">Symbol</th>
+        <th scope="col">Name</th>
+        <th scope="col">Shares</th>
+        <th scope="col">Buy price</th>
+        <th scope="col">Current price</th>
+        <th scope="col">Total</th>
+      </tr>
+    </thead>
+    <tbody><!-- I need a jina loop here. -->
+            {% for stock in stocks_new %}
+            <tr>
+                <td>{{ stock.stockSymbol }}</td>
+                <td>{{ stock.name }}</td>
+                <td>{{ stock.shares }}</td>
+                <td>{{ "$%.2f"|format(stock.buyPrice) }}</td>
+                <td>{{ "$%.2f"|format(stock.sellPrice) }}</td>
+                <td>{{ "$%.2f"|format((stock.sellPrice * stock.shares)) }}</td>
+
+            </tr>
+            {% endfor %}
+        <!-- Last line -->
+        <tr>
+        <td>Stock value</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>{{ "$%.2f"|format(total) }}</td>
+      </tr>
+      <tr>
+        <td>Remaining funds <br>(including stock value)</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>{{ "$%.2f"|format(cash + total) }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+{% endblock main %}

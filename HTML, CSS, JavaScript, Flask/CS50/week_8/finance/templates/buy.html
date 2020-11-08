@@ -1,0 +1,25 @@
+<!-- Buy Stock -->
+{% extends "layout.html" %}
+
+<!-- Title -->
+{% block title %}
+Buy some stocks!
+{% endblock title %}
+
+<!-- Body -->
+{% block main %}
+
+<!-- Form -->
+<form action="/buy" method="post">
+    <h2>Buy Stock</h2>
+    <div class="form-group">
+        <div class="col-xs-6">
+          <input type="text" autocomplete="off" class="form-control" name="stock" placeholder="Stock Symbols" required="required"></div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-6">
+          <input type="integer" autocomplete="off" class="form-control" name="shares" placeholder="Amount" required="required"></div>
+      </div>
+    <button type="submit" class="btn btn-primary">BUY!</button>
+  </form>
+{% endblock main %}
