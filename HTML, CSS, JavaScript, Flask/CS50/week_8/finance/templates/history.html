@@ -1,0 +1,35 @@
+<!-- History -->
+{% extends "layout.html" %}
+
+<!-- Title -->
+{% block title %}
+History
+{% endblock title %}
+
+<!-- Body -->
+{% block main %}
+<table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">Symbol</th>
+        <th scope="col">Shares</th>
+        <th scope="col">Price</th>
+        <th scope="col">Transacted</th>
+      </tr>
+    </thead>
+    <tbody><!-- I need a jina loop here. -->
+            {% for stock in history %}
+            <tr>
+                <td>{{ stock.stockSymbol }}</td>
+                <td>{{ stock.shares }}</td>
+                <td>{{ "$%.2f"|format(stock.price) }}</td>
+                <td>{{ stock.timestamp }}</td>
+
+            </tr>
+            {% endfor %}
+
+    </tbody>
+  </table>
+
+
+{% endblock main %}

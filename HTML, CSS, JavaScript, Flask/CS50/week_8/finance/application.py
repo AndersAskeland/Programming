@@ -50,7 +50,6 @@ def index():
     
     # Update sell prices
     for i, row in enumerate(stocks):
-        print(f"stock symbol: {row['stockSymbol']}")
         sell_price = lookup(row['stockSymbol'])
     
         # Update with sell price
@@ -61,7 +60,7 @@ def index():
         total += (cost[i]['sellPrice'] * cost[i]['shares'])
 
     # New updated stocks
-    stocks_new = db.execute("SELECT * FROM stocks WHERE id = :id", id=session["user_id"])
+    stocks_new = db.execute("SELECT * FROM stocks WHERE id = :id AND shares > 0", id=session["user_id"])
     cash = db.execute("SELECT cash FROM users WHERE id = :id", id=session["user_id"])
 
     # Return template
@@ -74,28 +73,48 @@ def index():
 def buy():
     # POST requests
     if request.method == "POST":
-        # Variables
+        # Stock lookup
         stock = lookup(request.form.get("stock"))
-        cash = db.execute("SELECT cash FROM users WHERE id = :id", id=session["user_id"])
-        n = float(request.form.get("shares"))
-        price = float(stock["price"]) * float(n)
 
         # Error checking
         if stock is None:
             return apology("That is not a real stock")
+        # Stock exist
         else:
+            # Variables
+            symbol = db.execute("SELECT stockSymbol FROM stocks WHERE stockSymbol = :stockSymbol AND id = :id", stockSymbol=stock["symbol"], id=session["user_id"])
+            cash = db.execute("SELECT cash FROM users WHERE id = :id", id=session["user_id"])
+            n = float(request.form.get("shares"))
+            price = float(stock["price"]) * float(n)
+
+            # Check
             if price > cash[0]['cash']:
                 return apology("You do not have enought cash")
             else:
-                # Write to db
-                db.execute("INSERT INTO stocks (stockSymbol, name, buyPrice, shares, id) VALUES (?, ?, ?, ?, ?)", stock["symbol"], stock["name"], stock["price"], request.form.get("shares"), session["user_id"])
-                
-                # Updage cash balance
-                db.execute("UPDATE users SET cash = :cash WHERE id = :id", cash=(cash[0]['cash'] - price), id=session["user_id"])
+                # Already in database
+                if len(symbol) > 0:
+                    db.execute("UPDATE stocks SET buyPrice = ((((buyPrice * shares) + (:buyPrice * :shares))/ (shares + :shares)) / 2), shares = (shares + :shares) WHERE stockSymbol = :stockSymbol AND id = :id", buyPrice=stock["price"], stockSymbol=stock["symbol"], shares=request.form.get("shares"), id=session["user_id"])
+                    db.execute("UPDATE users SET cash = :cash WHERE id = :id", cash=(cash[0]['cash'] - price), id=session["user_id"])
+                    
+                    # Write to history
+                    db.execute("INSERT INTO history (stockSymbol, name, shares, price, id) VALUES (:stockSymbol, :name, :shares, :price, :id)", stockSymbol=stock["symbol"], name=stock["name"], shares=request.form.get("shares"), price=stock["price"], id=session["user_id"])
+                    
+                    # Redirect to index
+                    return redirect("/")
 
+                # Not in database
+                else:
+                    # Write to db
+                    db.execute("INSERT INTO stocks (stockSymbol, name, buyPrice, shares, id) VALUES (?, ?, ?, ?, ?)", stock["symbol"], stock["name"], stock["price"], request.form.get("shares"), session["user_id"])
+                    
+                    # Updage cash balance
+                    db.execute("UPDATE users SET cash = :cash WHERE id = :id", cash=(cash[0]['cash'] - price), id=session["user_id"])
 
-                # Redirect to index
-                return redirect("/")
+                    # Write to history
+                    db.execute("INSERT INTO history (stockSymbol, name, shares, price, id) VALUES (:stockSymbol, :name, :shares, :price, :id)", stockSymbol=stock["symbol"], name=stock["name"], shares=request.form.get("shares"), price=stock["price"], id=session["user_id"])
+
+                    # Redirect to index
+                    return redirect("/")
 
     # GET requests
     else:
@@ -105,10 +124,11 @@ def buy():
 @app.route("/history")
 @login_required
 def history():
-    
-    """Show history of transactions"""
-    return apology("TODO")
+    # Variables
+    history = db.execute("SELECT * FROM history WHERE id = :id", id=session["user_id"])
 
+    # Return template
+    return render_template("history.html", history=history)
 
 
 # Login
@@ -223,9 +243,35 @@ def register():
 @app.route("/sell", methods=["GET", "POST"])
 @login_required
 def sell():
-    
-    """Sell shares of stock"""
-    return apology("TODO")
+    # POST requests
+    if request.method == "POST":
+        # Retrive input
+        symbol = request.form.get("symbol")
+        shares = request.form.get("shares")
+
+       
+        # Find sell price and stocks
+        sell_price = db.execute("SELECT shares, sellPrice FROM stocks WHERE id = :id AND stockSymbol=:stock", id=session["user_id"], stock=symbol)
+
+        # Error - If below or above total stock
+        if int(shares) > int(sell_price[0]["shares"]):
+            return apology("You dont have that many shares!")
+
+        # Update cash and stock
+        db.execute("UPDATE stocks SET shares = (shares - :shares) WHERE id = :id AND stockSymbol = :stockSymbol", shares=shares, id=session["user_id"], stockSymbol=symbol)
+        db.execute("UPDATE users SET cash = (cash + (:sellPrice * :shares)) WHERE id = :id", sellPrice=sell_price[0]["sellPrice"], id=session["user_id"], shares=shares)
+
+        # Write to history
+        stock = lookup(request.form.get("symbol"))
+        db.execute("INSERT INTO history (stockSymbol, name, shares, price, id) VALUES (:stockSymbol, :name, -:shares, :price, :id)", stockSymbol=stock["symbol"], name=stock["name"], shares=request.form.get("shares"), price=stock["price"], id=session["user_id"])
+
+        # Redirect to index
+        return redirect("/")
+
+    # GET requests
+    else:
+        stocks = db.execute("SELECT stockSymbol FROM stocks WHERE id = :id AND shares > 0", id=session["user_id"])
+        return render_template("sell.html", stocks=stocks)
 
 
 def errorhandler(e):
