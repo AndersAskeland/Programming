@@ -67,6 +67,37 @@ def index():
     return render_template("index.html", stocks_new=stocks_new, total=total, cash=cash[0]["cash"])
 
 
+# change password
+@app.route("/password", methods=["GET", "POST"])
+@login_required
+def password():
+    # POST requests
+    if request.method == "POST":
+        # Ensure old_password was submitted
+        if not request.form.get("old_password"):
+            return apology("must provide old password", 403)
+
+        # Ensure password was submitted
+        elif not request.form.get("new_password"):
+            return apology("must provide new password", 403)
+
+        # Query database for username
+        rows = db.execute("SELECT * FROM users WHERE id = :id", id=session["user_id"])
+
+        # Ensure username exists and password is correct
+        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("old_password")):
+            return apology("Your old password is not correct", 403)
+
+        # Revieve hased password
+        pass_hash=generate_password_hash(request.form.get("new_password"))
+
+        # Write into DB
+        db.execute("UPDATE users SET hash = :hash WHERE id = :id", hash=pass_hash, id=session["user_id"])
+        
+        return redirect("/")
+    else:
+        return render_template("password.html")
+
 # Buy
 @app.route("/buy", methods=["GET", "POST"])
 @login_required
