@@ -21,3 +21,5 @@ with open("title.basics.tsv", "r") as titles:
             if row["titleType"] == "tvSeries" and row["isAdult"] == "0":
                 writer.writerow([row["tconst"], row["primaryTitle"], row["startYear"], row["genres"]]) # Read over tsv and print
 
+for i in range(1,5):
+    print(i)
