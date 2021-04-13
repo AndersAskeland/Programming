@@ -1,5 +1,5 @@
 # Programming
-This repository contains miscellaneous code and notes related to programming. Mostly the code is written in conjunction with some lectures or courses.
+This repository contains miscellaneous code and notes related to programming.
 
 ## Courses
 ### 1 - CS50
